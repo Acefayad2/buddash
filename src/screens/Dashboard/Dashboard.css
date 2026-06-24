@@ -1,0 +1,295 @@
+/* BudDash dashboard — DoorDash-style layout, BudDash green branding. */
+.dd {
+  --green: #1f9d57;
+  --green-dark: #15803d;
+  --ink: #1b1b1b;
+  --muted: #767676;
+  --line: #e7e7e7;
+  --bg: #ffffff;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--ink);
+  background: var(--bg);
+  min-height: 100vh;
+}
+.dd * { box-sizing: border-box; }
+.dd button { font-family: inherit; cursor: pointer; }
+
+/* ---------- Top bar ---------- */
+.dd-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 22px;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+}
+.dd-brand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--green);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.dd-brand-accent { color: var(--ink); }
+.dd-leaf { font-size: 24px; }
+.dd-search {
+  flex: 1;
+  max-width: 360px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f4f4f4;
+  border-radius: 999px;
+  padding: 9px 16px;
+}
+.dd-search-ico { opacity: 0.5; font-size: 14px; }
+.dd-search input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+}
+.dd-address {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 9px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.dd-chevron { opacity: 0.6; font-size: 11px; }
+.dd-toggle {
+  display: flex;
+  background: #f4f4f4;
+  border-radius: 999px;
+  padding: 3px;
+}
+.dd-toggle button {
+  border: none;
+  background: transparent;
+  border-radius: 999px;
+  padding: 7px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.dd-toggle-on {
+  background: #fff !important;
+  color: var(--ink) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+.dd-icon-btn {
+  border: none;
+  background: transparent;
+  font-size: 18px;
+}
+.dd-cart {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+  background: var(--green);
+  color: #fff;
+  border-radius: 999px;
+  padding: 9px 16px;
+  font-weight: 700;
+  font-size: 14px;
+}
+.dd-signin {
+  border: none;
+  background: transparent;
+  font-weight: 700;
+  font-size: 14px;
+}
+.dd-signup {
+  border: none;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 999px;
+  padding: 9px 18px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* ---------- Body: sidebar + main ---------- */
+.dd-body { display: flex; align-items: flex-start; }
+.dd-sidebar {
+  position: sticky;
+  top: 65px;
+  width: 230px;
+  flex-shrink: 0;
+  padding: 18px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  height: calc(100vh - 65px);
+  overflow-y: auto;
+}
+.dd-nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: left;
+}
+.dd-nav:hover { background: #f6f6f6; }
+.dd-nav-on { background: #eafaf0; color: var(--green-dark); }
+.dd-nav-ico { font-size: 18px; width: 22px; text-align: center; }
+
+.dd-main {
+  flex: 1;
+  padding: 22px 28px 60px;
+  min-width: 0;
+}
+
+/* ---------- Moods ---------- */
+.dd-mood-title { font-size: 24px; font-weight: 800; margin: 6px 0 16px; }
+.dd-moods {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+.dd-moods::-webkit-scrollbar { display: none; }
+.dd-mood {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 999px;
+  padding: 9px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.dd-mood:hover { border-color: var(--green); }
+.dd-mood-ico { font-size: 16px; }
+
+/* ---------- Sections / carousels ---------- */
+.dd-section { margin-top: 34px; }
+.dd-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.dd-section-head h2 { font-size: 22px; font-weight: 800; margin: 0; }
+.dd-section-actions { display: flex; align-items: center; gap: 12px; }
+.dd-seeall { font-size: 14px; font-weight: 700; color: var(--green-dark); cursor: pointer; }
+.dd-arrow {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: #f1f1f1;
+  font-size: 20px;
+  line-height: 1;
+  color: var(--ink);
+}
+.dd-arrow:hover { background: #e4e4e4; }
+
+.dd-carousel {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+.dd-carousel::-webkit-scrollbar { display: none; }
+
+.dd-card {
+  width: 312px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  cursor: pointer;
+}
+.dd-card-img {
+  height: 180px;
+  border-radius: 14px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  margin-bottom: 10px;
+}
+.dd-card-promo {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  background: #fff;
+  color: var(--green-dark);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+.dd-card-heart {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.92);
+  font-size: 18px;
+  color: var(--ink);
+}
+.dd-card-name { font-size: 17px; font-weight: 700; }
+.dd-card-rating { font-size: 13px; font-weight: 600; }
+.dd-star { color: #1b1b1b; }
+.dd-muted { color: var(--muted); font-weight: 400; }
+.dd-card-meta { font-size: 13px; color: var(--muted); margin-top: 2px; }
+.dd-card-fee { font-size: 13px; color: var(--ink); font-weight: 600; margin-top: 1px; }
+
+/* ---------- Promo banner ---------- */
+.dd-banner {
+  margin-top: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(120deg, var(--green-dark), var(--green));
+  border-radius: 16px;
+  padding: 26px 30px;
+  color: #fff;
+  overflow: hidden;
+}
+.dd-banner-left h3 { font-size: 24px; font-weight: 800; margin: 0 0 6px; }
+.dd-banner-left p { margin: 0 0 16px; opacity: 0.92; font-size: 15px; }
+.dd-banner-btn {
+  border: none;
+  background: #fff;
+  color: var(--green-dark);
+  font-weight: 700;
+  font-size: 14px;
+  border-radius: 999px;
+  padding: 11px 22px;
+}
+.dd-banner-art { font-size: 100px; opacity: 0.85; line-height: 1; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .dd-sidebar { display: none; }
+  .dd-address, .dd-toggle, .dd-signin { display: none; }
+}

@@ -95,6 +95,29 @@ export const MOCK_NEARBY = {
   restaurants: MOCK_RESTAURANTS,
 };
 
+// Richer list used by the DoorDash-style dashboard (Dashboard.js).
+const DASH_IMG = [
+  "https://images.unsplash.com/photo-1603909223429-69bb7101f420?w=600&q=70",
+  "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&q=70",
+  "https://images.unsplash.com/photo-1605000797499-95a51c5269ae?w=600&q=70",
+  "https://images.unsplash.com/photo-1542281286-9e0a16bb7366?w=600&q=70",
+  "https://images.unsplash.com/photo-1498671546682-94a232c26d17?w=600&q=70",
+  "https://images.unsplash.com/photo-1574781330855-d0db8cc6a79c?w=600&q=70",
+  "https://images.unsplash.com/photo-1611843467160-25afb8df1074?w=600&q=70",
+  "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=600&q=70",
+];
+
+export const DASHBOARD_DISPENSARIES = [
+  { id: "r1", slug: "the-green-room", name: "The Green Room", image: DASH_IMG[0], rating: 4.9, reviews: "1.2k+", distance: 1.1, time: 30, fee: 0, promo: "Free delivery" },
+  { id: "r2", slug: "high-tide-collective", name: "High Tide Collective", image: DASH_IMG[1], rating: 4.7, reviews: "860+", distance: 2.3, time: 40, fee: 1.99, promo: "20% off first order" },
+  { id: "r3", slug: "sunset-botanicals", name: "Sunset Botanicals", image: DASH_IMG[2], rating: 4.8, reviews: "612", distance: 0.8, time: 25, fee: 0, promo: "Free delivery" },
+  { id: "r4", slug: "cloud-nine-cannabis", name: "Cloud Nine Cannabis", image: DASH_IMG[3], rating: 4.6, reviews: "2k+", distance: 3.1, time: 45, fee: 2.49, promo: "Open till 2am" },
+  { id: "r5", slug: "evergreen-dispensary", name: "Evergreen Dispensary", image: DASH_IMG[4], rating: 4.8, reviews: "940+", distance: 1.6, time: 32, fee: 1.49, promo: null },
+  { id: "r6", slug: "kush-corner", name: "Kush Corner", image: DASH_IMG[5], rating: 4.5, reviews: "430", distance: 2.0, time: 38, fee: 0, promo: "Free delivery" },
+  { id: "r7", slug: "highland-greens", name: "Highland Greens", image: DASH_IMG[6], rating: 4.9, reviews: "1.5k+", distance: 1.9, time: 35, fee: 1.99, promo: "$5 off $25+" },
+  { id: "r8", slug: "terp-house", name: "Terp House", image: DASH_IMG[7], rating: 4.7, reviews: "780+", distance: 2.7, time: 42, fee: 1.49, promo: null },
+];
+
 // Returns canned data for known operations; null-fills unknown ones so the
 // app never crashes on `data.<field>` being undefined.
 // Demo credential that is allowed to log in (mock auth — replace with a real

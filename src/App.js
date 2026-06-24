@@ -10,6 +10,7 @@ import EmailSent from "./screens/EmailSent/EmailSent";
 import Favourites from "./screens/Favourites/Favourites";
 import ForgotPassword from "./screens/ForgotPassword/ForgotPassword";
 import Home from "./screens/Home/Home";
+import Dashboard from "./screens/Dashboard/Dashboard";
 import Login from "./screens/Login/Login";
 import LoginEmail from "./screens/LoginEmail/LoginEmail";
 import MyOrders from "./screens/MyOrders/MyOrders";
@@ -192,7 +193,8 @@ function App() {
         VAPID_KEY={VAPID_KEY}
       >
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/landing" element={<Home />} />
           <Route path="/restaurant-list" element={<Restaurants />} />
           <Route path="/restaurant/:slug" element={<RestaurantDetail />} />
           <Route path="/privacy" element={<Privacy />} />

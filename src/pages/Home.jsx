@@ -18,14 +18,21 @@ export default function Home() {
     <div className="page">
       <section className="hero">
         <div className="hero-content">
-          <h1>Cannabis, delivered.</h1>
-          <p>Browse local dispensaries and get it dropped at your door in under an hour.</p>
+          <span className="hero-badge">Now delivering in your area</span>
+          <h1>Cannabis,<br />delivered in minutes.</h1>
+          <p>Browse local dispensaries and get it dropped at your door — usually in under an hour.</p>
           <div className="hero-search">
+            <span className="hero-search-icon">🔍</span>
             <input
               placeholder="Search strains, edibles, vapes…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
+          </div>
+          <div className="hero-stats">
+            <span><strong>4</strong> dispensaries</span>
+            <span><strong>~30 min</strong> avg delivery</span>
+            <span><strong>21+</strong> verified</span>
           </div>
         </div>
       </section>

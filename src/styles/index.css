@@ -1,19 +1,24 @@
 :root {
-  --green: #16a34a;
-  --green-dark: #15803d;
-  --green-deep: #0e1a14;
-  --green-light: #ecfdf3;
-  --ink: #0f1c16;
+  /* Template-matched palette: teal-green primary + warm coral accent (Enatega/DoorDash-clone look) */
+  --green: #3c8f7c;
+  --green-dark: #2f7264;
+  --green-deep: #14302a;
+  --green-light: #e7f4f0;
+  --mint: #6fcf97;
+  --coral: #f47458;
+  --coral-dark: #e85d3f;
+  --coral-light: #ffb27d;
+  --ink: #1b1a1a;
   --muted: #6b7785;
   --line: #ebeef1;
-  --bg: #f8faf9;
+  --bg: #f7f8fa;
   --white: #ffffff;
-  --amber: #f59e0b;
+  --amber: #f7a491;
   --radius: 18px;
   --radius-sm: 12px;
-  --shadow-sm: 0 1px 2px rgba(16, 24, 20, 0.04), 0 2px 8px rgba(16, 24, 20, 0.05);
-  --shadow-md: 0 6px 20px rgba(16, 24, 20, 0.08);
-  --shadow-lg: 0 20px 50px rgba(16, 24, 20, 0.18);
+  --shadow-sm: 0 1px 2px rgba(20, 48, 42, 0.04), 0 2px 8px rgba(20, 48, 42, 0.05);
+  --shadow-md: 0 6px 20px rgba(20, 48, 42, 0.08);
+  --shadow-lg: 0 20px 50px rgba(20, 48, 42, 0.16);
 }
 
 * { box-sizing: border-box; }
@@ -21,15 +26,15 @@ html, body, #root { height: 100%; }
 
 body {
   margin: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Poppins', 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: var(--ink);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.005em;
 }
 
 a { color: inherit; text-decoration: none; }
-h1, h2, h3 { margin: 0; letter-spacing: -0.025em; }
+h1, h2, h3 { margin: 0; letter-spacing: -0.02em; }
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -47,8 +52,8 @@ h1, h2, h3 { margin: 0; letter-spacing: -0.025em; }
   gap: 6px;
 }
 .btn:active { transform: scale(0.97); }
-.btn-primary { background: var(--green); color: #fff; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.28); }
-.btn-primary:hover { background: var(--green-dark); box-shadow: 0 6px 18px rgba(22, 163, 74, 0.34); }
+.btn-primary { background: var(--green); color: #fff; box-shadow: 0 4px 14px rgba(60, 143, 124, 0.3); }
+.btn-primary:hover { background: var(--green-dark); box-shadow: 0 6px 18px rgba(60, 143, 124, 0.36); }
 .btn-ghost { background: var(--white); color: var(--ink); border: 1px solid var(--line); }
 .btn-ghost:hover { background: #f1f3f2; }
 .btn-sm { padding: 10px 16px; font-size: 14px; }
@@ -125,7 +130,7 @@ h1, h2, h3 { margin: 0; letter-spacing: -0.025em; }
   position: absolute;
   top: -6px;
   right: -6px;
-  background: var(--green);
+  background: var(--coral);
   color: #fff;
   font-size: 12px;
   font-weight: 800;
@@ -156,9 +161,9 @@ h1, h2, h3 { margin: 0; letter-spacing: -0.025em; }
   margin-top: 28px;
   border-radius: 28px;
   background:
-    radial-gradient(1200px 400px at 90% -10%, rgba(255, 255, 255, 0.18), transparent),
-    radial-gradient(700px 500px at -10% 120%, rgba(34, 197, 94, 0.45), transparent),
-    linear-gradient(135deg, var(--green-deep), #14442b);
+    radial-gradient(1100px 380px at 88% -10%, rgba(255, 178, 125, 0.22), transparent),
+    radial-gradient(700px 500px at -10% 120%, rgba(111, 207, 151, 0.5), transparent),
+    linear-gradient(135deg, var(--green-deep), #1d4a3f);
   color: #fff;
   padding: 64px 44px;
   position: relative;
@@ -191,8 +196,8 @@ h1, h2, h3 { margin: 0; letter-spacing: -0.025em; }
   content: '';
   width: 7px; height: 7px;
   border-radius: 50%;
-  background: #4ade80;
-  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.3);
+  background: var(--mint);
+  box-shadow: 0 0 0 3px rgba(111, 207, 151, 0.35);
 }
 .hero h1 { font-size: 50px; line-height: 1.02; font-weight: 900; letter-spacing: -0.04em; }
 .hero p { font-size: 18px; opacity: 0.88; margin: 16px 0 26px; line-height: 1.5; max-width: 460px; }
@@ -278,13 +283,13 @@ h1, h2, h3 { margin: 0; letter-spacing: -0.025em; }
   top: 12px;
   left: 12px;
   z-index: 1;
-  background: rgba(255, 255, 255, 0.95);
-  color: var(--green-dark);
+  background: var(--coral);
+  color: #fff;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 600;
   padding: 6px 11px;
   border-radius: 999px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 4px 12px rgba(244, 116, 88, 0.35);
 }
 .dispensary-info { padding: 16px; }
 .dispensary-top {
@@ -507,7 +512,7 @@ h1, h2, h3 { margin: 0; letter-spacing: -0.025em; }
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(600px 400px at 50% 0%, rgba(34, 197, 94, 0.3), transparent),
+    radial-gradient(600px 400px at 50% 0%, rgba(111, 207, 151, 0.32), transparent),
     linear-gradient(160deg, var(--green-deep), #06120b);
   z-index: 100;
   display: grid;

@@ -1,0 +1,118 @@
+// Local mock data so the template renders WITHOUT the (dead/paid) Enatega backend.
+// Replace this whole file once you wire up a real GraphQL backend.
+// Themed as cannabis dispensaries to fit the BudDash idea.
+
+const IMG = {
+  greenRoom: "https://images.unsplash.com/photo-1603909223429-69bb7101f420?w=600&q=70",
+  highTide: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=600&q=70",
+  sunset: "https://images.unsplash.com/photo-1605000797499-95a51c5269ae?w=600&q=70",
+  cloudNine: "https://images.unsplash.com/photo-1542281286-9e0a16bb7366?w=600&q=70",
+};
+
+// A placeholder Google Maps key keeps the app's map-loader gate from hanging.
+// It is intentionally not a real key — add your own to enable live maps.
+export const MOCK_CONFIGURATION = {
+  __typename: "Configuration",
+  _id: "mock-config",
+  currency: "USD",
+  currencySymbol: "$",
+  deliveryRate: 5,
+  twilioEnabled: false,
+  webClientID: "",
+  googleApiKey: "AIzaSyDUMMY-REPLACE-WITH-YOUR-OWN-KEY",
+  webAmplitudeApiKey: "",
+  googleMapLibraries: "places,drawing,geometry",
+  googleColor: "#3c8f7c",
+  webSentryUrl: "",
+  publishableKey: "",
+  clientId: "",
+  skipEmailVerification: true,
+  skipMobileVerification: true,
+  costType: "fixed",
+  vapidKey: "",
+};
+
+function makeRestaurant(over) {
+  return {
+    __typename: "Restaurant",
+    _id: over._id,
+    name: over.name,
+    image: over.image,
+    slug: over.slug,
+    address: over.address,
+    location: { __typename: "Point", coordinates: over.coordinates },
+    deliveryTime: over.deliveryTime,
+    minimumOrder: over.minimumOrder,
+    tax: 8,
+    reviewData: {
+      __typename: "ReviewData",
+      total: over.reviews,
+      ratings: over.rating,
+      reviews: [],
+    },
+    categories: [
+      {
+        __typename: "Category",
+        _id: `${over._id}-c1`,
+        title: "Flower",
+        foods: [
+          { __typename: "Food", _id: `${over._id}-f1`, title: "Blue Dream" },
+          { __typename: "Food", _id: `${over._id}-f2`, title: "OG Kush" },
+        ],
+      },
+      {
+        __typename: "Category",
+        _id: `${over._id}-c2`,
+        title: "Edibles",
+        foods: [
+          { __typename: "Food", _id: `${over._id}-f3`, title: "Gummies" },
+        ],
+      },
+    ],
+    rating: over.rating,
+    isAvailable: true,
+    openingTimes: [
+      {
+        __typename: "OpeningTimes",
+        day: "MON",
+        times: [{ __typename: "Times", startTime: ["09", "00"], endTime: ["22", "00"] }],
+      },
+    ],
+  };
+}
+
+export const MOCK_RESTAURANTS = [
+  makeRestaurant({ _id: "r1", name: "The Green Room", image: IMG.greenRoom, slug: "the-green-room", address: "123 Main St", coordinates: [-104.9903, 39.7392], deliveryTime: 30, minimumOrder: 20, reviews: 1240, rating: 4.9 }),
+  makeRestaurant({ _id: "r2", name: "High Tide Collective", image: IMG.highTide, slug: "high-tide-collective", address: "88 Ocean Ave", coordinates: [-104.985, 39.742], deliveryTime: 40, minimumOrder: 25, reviews: 860, rating: 4.7 }),
+  makeRestaurant({ _id: "r3", name: "Sunset Botanicals", image: IMG.sunset, slug: "sunset-botanicals", address: "401 Sun Blvd", coordinates: [-104.995, 39.735], deliveryTime: 25, minimumOrder: 15, reviews: 612, rating: 4.8 }),
+  makeRestaurant({ _id: "r4", name: "Cloud Nine Cannabis", image: IMG.cloudNine, slug: "cloud-nine-cannabis", address: "9 Skyline Dr", coordinates: [-104.98, 39.75], deliveryTime: 35, minimumOrder: 20, reviews: 2010, rating: 4.6 }),
+];
+
+export const MOCK_NEARBY = {
+  __typename: "NearByData",
+  offers: [],
+  sections: [],
+  restaurants: MOCK_RESTAURANTS,
+};
+
+// Returns canned data for known operations; null-fills unknown ones so the
+// app never crashes on `data.<field>` being undefined.
+export default function resolveMock(operationName, topLevelFields) {
+  switch (operationName) {
+    case "Configuration":
+      return { configuration: MOCK_CONFIGURATION };
+    case "Restaurants":
+      return { nearByRestaurants: MOCK_NEARBY };
+    case "Tips":
+      return { tips: { __typename: "Tips", _id: "mock-tips", tipVariations: [5, 10, 15], enabled: true } };
+    case "Taxes":
+      return { taxes: { __typename: "Taxes", _id: "mock-taxes", taxationCharges: 8, enabled: true } };
+    default: {
+      const data = {};
+      (topLevelFields || []).forEach((f) => {
+        data[f] = null;
+      });
+      return data;
+    }
+  }
+}

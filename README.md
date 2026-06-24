@@ -1,52 +1,34 @@
-# 🌿 BudDash
+# BudDash (Enatega DoorDash-clone template)
 
-A DoorDash-style **cannabis delivery** storefront — original code, your brand. Browse local
-dispensaries, build a cart, check out, and watch a live order-tracking flow.
+This is the **web app from the [Enatega multivendor delivery template](https://github.com/marthaegrimaldi/doordash-clone-app)** (MIT licensed — see `LICENSE`), deployed as the starting point for BudDash.
 
-> **Demo / MVP.** Uses mock data and no real backend or payments. Built as a frontend
-> foundation to iterate on.
+## ⚠️ Important: it runs on MOCK data
 
-## Stack
+The original template depends on Enatega's backend, which is:
+- **Offline** — its public demo server (`enatega-multivendor.up.railway.app`) now returns 404, and
+- **Proprietary/paid** for production.
 
-- **React 18** + **Vite**
-- **React Router** for navigation
-- Plain CSS (no UI framework) — easy to theme
-- Cart state via React Context
+Without a backend the app gets stuck on a loading spinner. So this copy ships with a **local mock backend** so the UI actually renders standalone:
 
-## What's in it
+- `src/apollo/index.js` — the Apollo client now serves mock data instead of calling a server.
+- `src/apollo/mocks.js` — the mock data (config + sample cannabis "dispensaries"). **Edit this** to change what shows.
 
-- **Age gate** (21+) on first visit
-- **Home** — hero search, category filters, dispensary cards, product grid
-- **Dispensary page** — per-store menu
-- **Cart drawer** — add / remove / change quantity
-- **Checkout** — delivery address, ID-verification notice, tip selector, order summary
-- **Order tracking** — animated multi-step status with a mini map
+## To make it real (edit-after-upload checklist)
+
+1. **Google Maps key** — replace the placeholder `googleApiKey` in `src/apollo/mocks.js` (and ideally hardcode it in `src/config/constants.js`) with your own key, so the maps and address autocomplete work.
+2. **Backend** — to get real restaurants/dispensaries, orders, login, and payments, either:
+   - buy/host an Enatega backend, or
+   - point the Apollo client back at your own GraphQL server (restore `src/apollo/index.js` to an `HttpLink`).
+3. **Branding** — logo/header in `src/components/Header`, theme colors in `src/utils/theme.js`.
 
 ## Run locally
 
 ```bash
-npm install
-npm run dev      # http://localhost:5173
-npm run build    # production build into dist/
-npm run preview  # preview the production build
+npm install --legacy-peer-deps
+npm start            # http://localhost:3000
+CI=false npm run build
 ```
 
-## Deploy (Netlify)
+## Deploy
 
-`netlify.toml` is already configured: build command `npm run build`, publish dir `dist`,
-with an SPA redirect so client-side routes work on reload.
-
-## ⚠️ Before going to production
-
-Cannabis delivery has real legal/operational requirements not handled by this demo:
-
-- **Age & ID verification** — real document verification, not a checkbox
-- **State/local licensing** — delivery is only legal in some jurisdictions, often via licensed operators
-- **Payments** — most major processors (Stripe, PayPal) prohibit cannabis; you'll need a cannabis-friendly processor
-- **Compliance** — Metrc/track-and-trace, purchase limits, tax rules
-
-## Next steps
-
-- Wire products/orders to a real backend (e.g. Supabase)
-- Add auth and persistent carts
-- Integrate a compliant payment + ID-verification provider
+`netlify.toml` is configured (Node 20, legacy peer deps, `CI=false`). Uses HashRouter, so no SPA redirect is needed.

@@ -1,4 +1,4 @@
-// Local mock data so the template renders WITHOUT the (dead/paid) Enatega backend.
+// Local mock data so the template renders WITHOUT the (dead/paid) BudDash backend.
 // Replace this whole file once you wire up a real GraphQL backend.
 // Themed as cannabis dispensaries to fit the BudDash idea.
 
@@ -97,7 +97,13 @@ export const MOCK_NEARBY = {
 
 // Returns canned data for known operations; null-fills unknown ones so the
 // app never crashes on `data.<field>` being undefined.
-export default function resolveMock(operationName, topLevelFields) {
+// Demo credential that is allowed to log in (mock auth — replace with a real
+// backend later). Anything else returns an "invalid credentials" error.
+const DEMO_EMAIL = "ace@gmail.com";
+const DEMO_PASSWORD = "abcd1234";
+
+export default function resolveMock(operationName, topLevelFields, variables) {
+  const vars = variables || {};
   switch (operationName) {
     case "Configuration":
       return { configuration: MOCK_CONFIGURATION };
@@ -107,6 +113,30 @@ export default function resolveMock(operationName, topLevelFields) {
       return { tips: { __typename: "Tips", _id: "mock-tips", tipVariations: [5, 10, 15], enabled: true } };
     case "Taxes":
       return { taxes: { __typename: "Taxes", _id: "mock-taxes", taxationCharges: 8, enabled: true } };
+    case "EmailExist":
+      // Report any email as "exists" so the flow routes to the password screen.
+      return { emailExist: { __typename: "User", _id: "mock-user-1" } };
+    case "Login": {
+      const emailOk = (vars.email || "").trim().toLowerCase() === DEMO_EMAIL;
+      const passOk = vars.password === DEMO_PASSWORD;
+      // Social logins (type !== "default") have no password — allow them through.
+      const isSocial = vars.type && vars.type !== "default";
+      if (!isSocial && !(emailOk && passOk)) {
+        return { __error: "Invalid credentials!" };
+      }
+      return {
+        login: {
+          __typename: "AuthData",
+          userId: "mock-user-1",
+          token: "mock-token-buddash",
+          tokenExpiration: "3600",
+          name: "Ace",
+          email: vars.email || DEMO_EMAIL,
+          phone: "",
+          inNewUser: false,
+        },
+      };
+    }
     default: {
       const data = {};
       (topLevelFields || []).forEach((f) => {

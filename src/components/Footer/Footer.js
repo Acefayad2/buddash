@@ -62,7 +62,7 @@ function Footer() {
             }}
             align="center"
           >
-            Enatega
+            BudDash
           </Typography>
           <Typography
             variant="body2"

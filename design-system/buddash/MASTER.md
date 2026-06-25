@@ -34,19 +34,22 @@ calm, natural, premium. Avoid the generic SaaS blue and AI purple/pink gradients
 
 ---
 
-## 2. Typography — "Soft Rounded" (friendly + approachable)
+## 2. Typography — distinctive grotesque pairing (premium pass)
 
-- **Heading Font:** Varela Round
-- **Body Font:** Nunito Sans
-- **Mood:** friendly, warm, approachable, wellness, premium-but-not-stiff
-- **Premium alternative** (if you want a sharper feel): DM Sans headings + Nunito Sans body
+- **Display / headings:** Bricolage Grotesque (700–800, tight tracking −0.03em, `text-wrap: balance`)
+- **Body / UI:** Hanken Grotesk (400/500/600/700)
+- **Numbers:** `font-variant-numeric: tabular-nums` on prices, totals, ratings, times
+- **Why these:** characterful but clean — and they deliberately avoid the AI "tells"
+  (Inter, Roboto, Geist, Plus Jakarta Sans, Space Grotesk, Poppins) flagged by the
+  Impeccable detector and high-end-visual-design skill.
 
-```css
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;500;600;700&family=Varela+Round&display=swap');
+```html
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 ```
 
 **Type scale:** 12 · 14 · 16 (body base) · 18 · 24 · 32 · 40
-**Line-height:** 1.5–1.7 body, 1.2 headings · **Weights:** 700 headings, 600 labels, 400 body
+**Line-height:** 1.5–1.7 body, 1.04–1.2 headings · **Weights:** 800 display, 700 headings, 600 labels, 400 body
 
 ---
 

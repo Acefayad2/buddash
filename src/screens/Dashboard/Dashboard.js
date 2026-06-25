@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DASHBOARD_DISPENSARIES } from "../../apollo/mocks";
 import { useCannabisCart } from "../../context/CannabisCart";
@@ -33,10 +33,61 @@ const MOODS = [
   { icon: "tag", label: "Deals" },
 ];
 
+// Reveal-on-scroll wrapper (IntersectionObserver, GPU-friendly, reduced-motion safe).
+function Reveal({ children, delay = 0, className = "" }) {
+  const ref = useRef(null);
+  const [shown, setShown] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShown(true);
+          io.unobserve(el);
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  return (
+    <div
+      ref={ref}
+      className={`reveal ${shown ? "is-in" : ""} ${className}`}
+      style={{ transitionDelay: shown ? `${delay}ms` : "0ms" }}
+    >
+      {children}
+    </div>
+  );
+}
+
+// Tracks whether a remote image has loaded so we can show a shimmer skeleton first.
+function useImageLoaded(src) {
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    if (!src) return;
+    let active = true;
+    const img = new Image();
+    img.onload = () => active && setLoaded(true);
+    img.onerror = () => active && setLoaded(true);
+    img.src = src;
+    return () => {
+      active = false;
+    };
+  }, [src]);
+  return loaded;
+}
+
 function DispensaryCard({ d, onClick }) {
+  const loaded = useImageLoaded(d.image);
   return (
     <article className="dd-card" onClick={onClick}>
-      <div className="dd-card-img" style={{ backgroundImage: `url(${d.image})` }}>
+      <div
+        className={`dd-card-img ${loaded ? "" : "is-loading"}`}
+        style={loaded ? { backgroundImage: `url(${d.image})` } : undefined}
+      >
         <button
           className="dd-card-heart"
           onClick={(e) => e.stopPropagation()}
@@ -65,13 +116,13 @@ function DispensaryCard({ d, onClick }) {
   );
 }
 
-function Carousel({ title, items, navigate }) {
+function Carousel({ title, items, navigate, delay }) {
   const ref = React.useRef(null);
   const scroll = (dir) => {
     if (ref.current) ref.current.scrollBy({ left: dir * 640, behavior: "smooth" });
   };
   return (
-    <section className="dd-section">
+    <Reveal delay={delay} className="dd-section">
       <div className="dd-section-head">
         <h2>{title}</h2>
         <div className="dd-section-actions">
@@ -89,7 +140,7 @@ function Carousel({ title, items, navigate }) {
           <DispensaryCard key={d.id} d={d} onClick={() => navigate(`/d/${d.slug}`)} />
         ))}
       </div>
-    </section>
+    </Reveal>
   );
 }
 
@@ -172,33 +223,38 @@ export default function Dashboard() {
         {/* Main */}
         <main className="dd-main">
           {/* Hero */}
-          <section className="dd-hero">
-            <div className="dd-hero-text">
-              <span className="dd-hero-kicker">New customers · 21+</span>
-              <h1>$5 off your first delivery</h1>
-              <p>Premium flower, edibles & more — delivered in 30 minutes. Use code <strong>BUD5</strong>.</p>
-              <button className="dd-hero-btn" onClick={() => navigate("/login")}>
-                Start an order <Icon name="chevronRight" size={18} />
-              </button>
-            </div>
-            <div className="dd-hero-glow" aria-hidden="true">
-              <Icon name="leaf" size={150} />
-            </div>
-          </section>
+          <Reveal>
+            <section className="dd-hero">
+              <div className="dd-hero-text">
+                <span className="dd-hero-kicker">New customers · 21+</span>
+                <h1>$5 off your first delivery</h1>
+                <p>Premium flower, edibles & more — delivered in 30 minutes. Use code <strong>BUD5</strong>.</p>
+                <button className="dd-hero-btn" onClick={() => navigate("/login")}>
+                  Start an order
+                  <span className="dd-hero-btn-ico"><Icon name="chevronRight" size={18} /></span>
+                </button>
+              </div>
+              <div className="dd-hero-glow" aria-hidden="true">
+                <Icon name="leaf" size={150} />
+              </div>
+            </section>
+          </Reveal>
 
-          <h2 className="dd-mood-title">Shop by category</h2>
-          <div className="dd-moods">
-            {MOODS.map((m) => (
-              <button key={m.label} className="dd-mood">
-                <span className="dd-mood-ico"><Icon name={m.icon} size={22} /></span>
-                {m.label}
-              </button>
-            ))}
-          </div>
+          <Reveal delay={60}>
+            <h2 className="dd-mood-title">Shop by category</h2>
+            <div className="dd-moods">
+              {MOODS.map((m, i) => (
+                <button key={m.label} className="dd-mood" style={{ transitionDelay: `${i * 18}ms` }}>
+                  <span className="dd-mood-ico"><Icon name={m.icon} size={22} /></span>
+                  {m.label}
+                </button>
+              ))}
+            </div>
+          </Reveal>
 
-          <Carousel title="Under $2 delivery fee" items={cheap} navigate={navigate} />
-          <Carousel title="Popular near you" items={all} navigate={navigate} />
-          <Carousel title="Fastest delivery" items={fast} navigate={navigate} />
+          <Carousel title="Under $2 delivery fee" items={cheap} navigate={navigate} delay={40} />
+          <Carousel title="Popular near you" items={all} navigate={navigate} delay={40} />
+          <Carousel title="Fastest delivery" items={fast} navigate={navigate} delay={40} />
         </main>
       </div>
 

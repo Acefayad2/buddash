@@ -8,18 +8,21 @@
   --muted: #687076;
   --line: #ececf0;
   --bg: #f6f7f9;
-  --shadow-sm: 0 1px 2px rgba(16, 24, 28, 0.06);
-  --shadow-md: 0 6px 18px rgba(16, 24, 28, 0.09);
-  --shadow-lg: 0 14px 34px rgba(16, 24, 28, 0.14);
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --shadow-sm: 0 1px 2px rgba(20, 50, 35, 0.06);
+  --shadow-md: 0 8px 24px -6px rgba(20, 60, 40, 0.16);
+  --shadow-lg: 0 22px 48px -12px rgba(18, 64, 42, 0.28);
+  --ease: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: var(--ink);
   background: var(--bg);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  font-feature-settings: "ss01";
 }
 .bd * { box-sizing: border-box; }
 .bd button { font-family: inherit; cursor: pointer; }
-.bd h1, .bd h2, .bd h3 { font-family: "Poppins", "Inter", sans-serif; letter-spacing: -0.02em; }
+.bd h1, .bd h2, .bd h3 { font-family: "Bricolage Grotesque", "Hanken Grotesk", sans-serif; letter-spacing: -0.03em; text-wrap: balance; }
 
 /* ---------- Top bar ---------- */
 .bd-topbar {
@@ -34,7 +37,7 @@
   background: linear-gradient(135deg, var(--green), var(--green-dark));
   color: #fff; display: grid; place-items: center; box-shadow: var(--shadow-sm);
 }
-.bd-wordmark { font-family: "Poppins", sans-serif; font-size: 21px; font-weight: 800; letter-spacing: -0.03em; color: var(--ink); }
+.bd-wordmark { font-family: "Bricolage Grotesque", sans-serif; font-size: 21px; font-weight: 800; letter-spacing: -0.03em; color: var(--ink); }
 .bd-wordmark span { color: var(--green); }
 .bd-search {
   flex: 1; max-width: 460px; display: flex; align-items: center; gap: 9px;
@@ -268,4 +271,55 @@
   .bd-page { padding: 18px 16px 70px; }
   .bd-store-hero { height: 170px; }
   .bd-prod-desc { display: none; }
+}
+
+/* ============================================================
+   Premium craft layer (redesign pass)
+   ============================================================ */
+
+html { scroll-behavior: smooth; }
+
+/* Tabular figures for prices, totals, quantities, ratings */
+.bd-prod-price, .bd-item-line, .bd-line span:last-child, .bd-total span:last-child,
+.bd-qty span, .bd-h1-count, .bd-store-meta, .bd-order-meta, .bd-cart-badge,
+.bd-prod-tags .bd-tag, .bd-eta { font-variant-numeric: tabular-nums; }
+
+/* Headlines: tighter, more presence */
+.bd-h1, .bd-store-title, .bd-track h1, .bd-auth-title { letter-spacing: -0.035em; }
+
+/* Product cards: weighted hover + press */
+.bd-prod { transition: box-shadow 0.45s var(--ease), transform 0.45s var(--ease), border-color 0.45s var(--ease); }
+.bd-prod:hover { transform: translateY(-3px); border-color: #dfe3e1; }
+.bd-prod:active { transform: translateY(-1px) scale(0.997); transition-duration: 0.12s; }
+.bd-prod-img { transition: transform 0.45s var(--ease); }
+.bd-prod:hover .bd-prod-img { transform: scale(1.04); }
+
+/* Buttons: physical press + spring easing everywhere */
+.bd-btn, .bd-add, .bd-tip, .bd-cat, .bd-order-reorder, .bd-order-track,
+.bd-auth-social, .bd-account-row, .bd-account-logout, .bd-cart, .bd-qty button {
+  transition: background 0.25s var(--ease), color 0.25s var(--ease), transform 0.25s var(--ease), box-shadow 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.bd-btn:active, .bd-add:active, .bd-tip:active, .bd-cat:active,
+.bd-order-reorder:active, .bd-order-track:active, .bd-cart:active, .bd-qty button:active { transform: scale(0.96); }
+.bd-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+/* Store hero as a premium island: inner highlight + deeper gradient scrim */
+.bd-store-hero { box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.12); }
+.bd-store-hero::after { background: linear-gradient(to top, rgba(8, 24, 16, 0.5), transparent 58%); }
+
+/* Add-to-bag: trailing icon nested in its own circle (button-in-button) */
+.bd-add { padding: 7px 8px 7px 16px; gap: 8px; }
+.bd-add svg { background: rgba(255, 255, 255, 0.22); border-radius: 50%; padding: 3px; box-sizing: content-box; width: 14px; height: 14px; }
+
+/* Accessible focus rings (keyboard nav) */
+.bd button:focus-visible, .bd a:focus-visible, .bd input:focus-visible, .bd textarea:focus-visible {
+  outline: 2px solid var(--green); outline-offset: 2px; border-radius: 6px;
+}
+
+/* Tracking badge pulse uses spring easing */
+.bd-track-badge { animation: bd-pop 0.5s var(--ease-out); }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .bd *, .bd *::after, .bd *::before { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
 }

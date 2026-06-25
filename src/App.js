@@ -5,9 +5,6 @@ import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
 import { getToken, onMessage } from "firebase/messaging";
 import { initialize, isFirebaseSupported } from "./firebase";
 import ConfigurableValues from "./config/constants";
-import EmailSent from "./screens/EmailSent/EmailSent";
-import Favourites from "./screens/Favourites/Favourites";
-import ForgotPassword from "./screens/ForgotPassword/ForgotPassword";
 import Dashboard from "./screens/Dashboard/Dashboard";
 import Menu from "./screens/Menu/Menu";
 import Bag from "./screens/Bag/Bag";
@@ -17,25 +14,10 @@ import BudAuth from "./screens/BudAuth/BudAuth";
 import BudOrders from "./screens/BudOrders/BudOrders";
 import BudAccount from "./screens/BudAccount/BudAccount";
 import BudSearch from "./screens/BudSearch/BudSearch";
-import LoginEmail from "./screens/LoginEmail/LoginEmail";
-import NewLogin from "./screens/NewLogin/NewLogin";
-import OrderDetail from "./screens/OrderDetail/OrderDetail";
-import Paypal from "./screens/Paypal/Paypal";
 import Privacy from "./screens/Privacy/Privacy";
-import Registration from "./screens/Registration/Registration";
-import PhoneNumber from "./screens/PhoneNumber/PhoneNumber";
-import VerifyEmail from "./screens/VerifyEmail/VerifyEmail";
-import VerifyForgotOtp from "./screens/VerifyForgotOtp/VerifyForgotOtp";
-import ResetPassword from "./screens/ResetPassword/ResetPassword";
-import RestaurantDetail from "./screens/RestaurantDetail/RestaurantDetail";
-import Stripe from "./screens/Stripe/Stripe";
 import Terms from "./screens/Terms/Terms";
 import FlashMessage from "./components/FlashMessage";
-import Pickup from "./screens/Pickup/Pickup";
 import * as Sentry from "@sentry/react";
-import AuthRoute from "./routes/AuthRoute";
-import PrivateRoute from "./routes/PrivateRoute";
-import VerifyPhone from "./screens/VerifyPhone/VerifyPhone";
 import { useTranslation } from "react-i18next";
 //import { fetchConfiguration } from "./utils/helper";
 
@@ -202,125 +184,34 @@ function App() {
           <Route path="/orders" element={<BudOrders />} />
           <Route path="/account" element={<BudAccount />} />
           <Route path="/restaurant-list" element={<Navigate to="/" replace />} />
-          <Route path="/restaurant/:slug" element={<RestaurantDetail />} />
+          <Route path="/restaurant/:slug" element={<Navigate to="/" replace />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
-          <Route path="/pickup" element={<Pickup />} />
+          <Route path="/pickup" element={<Navigate to="/" replace />} />
           <Route path={"/login"} element={<BudAuth />} />
-          <Route
-            path={"/registration"}
-            element={
-              <AuthRoute>
-                <Registration />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path={"/new-login"}
-            element={
-              <AuthRoute>
-                <NewLogin />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path={"/login-email"}
-            element={
-              <AuthRoute>
-                <LoginEmail />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path={"/verify-email"}
-            element={
-              <AuthRoute>
-                <VerifyEmail />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path={"/new-password"}
-            element={
-              <AuthRoute>
-                <ResetPassword />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path={"/phone-number"}
-            element={
-              <PrivateRoute>
-                <PhoneNumber />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={"/verify-phone"}
-            element={
-              <PrivateRoute>
-                <VerifyPhone />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={"/forgot-password"}
-            element={
-              <AuthRoute>
-                <ForgotPassword />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path={"/verify-forgot-otp"}
-            element={
-              <AuthRoute>
-                <VerifyForgotOtp />
-              </AuthRoute>
-            }
-          />
-          <Route
-            path={"/email-sent"}
-            element={
-              <AuthRoute>
-                <EmailSent />
-              </AuthRoute>
-            }
-          />
+          {/* Legacy Enatega auth/OTP screens → branded auth */}
+          {[
+            "/registration",
+            "/new-login",
+            "/login-email",
+            "/verify-email",
+            "/new-password",
+            "/phone-number",
+            "/verify-phone",
+            "/forgot-password",
+            "/verify-forgot-otp",
+            "/email-sent",
+          ].map((p) => (
+            <Route key={p} path={p} element={<Navigate to="/login" replace />} />
+          ))}
+          {/* Legacy account/order/payment screens → branded equivalents */}
           <Route path={"/profile"} element={<Navigate to="/account" replace />} />
           <Route path={"/settings"} element={<Navigate to="/account" replace />} />
-          <Route
-            path={"/order-detail/:id"}
-            element={
-              <PrivateRoute>
-                <OrderDetail />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={"/paypal"}
-            element={
-              <PrivateRoute>
-                <Paypal />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={"/stripe"}
-            element={
-              <PrivateRoute>
-                <Stripe />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={"/favourite"}
-            element={
-              <PrivateRoute>
-                <Favourites />
-              </PrivateRoute>
-            }
-          />
+          <Route path={"/favourite"} element={<Navigate to="/account" replace />} />
+          <Route path={"/order-detail/:id"} element={<Navigate to="/orders" replace />} />
+          <Route path={"/paypal"} element={<Navigate to="/checkout" replace />} />
+          <Route path={"/stripe"} element={<Navigate to="/checkout" replace />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </GoogleMapsLoader>
     </HashRouter>

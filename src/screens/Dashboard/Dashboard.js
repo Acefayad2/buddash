@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DASHBOARD_DISPENSARIES } from "../../apollo/mocks";
+import { useCannabisCart } from "../../context/CannabisCart";
 import "./Dashboard.css";
 
 const SIDEBAR = [
@@ -82,7 +83,7 @@ function Carousel({ title, items, navigate }) {
       </div>
       <div className="dd-carousel" ref={ref}>
         {items.map((d) => (
-          <DispensaryCard key={d.id} d={d} onClick={() => navigate(`/restaurant/${d.slug}`)} />
+          <DispensaryCard key={d.id} d={d} onClick={() => navigate(`/d/${d.slug}`)} />
         ))}
       </div>
     </section>
@@ -91,6 +92,7 @@ function Carousel({ title, items, navigate }) {
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { count } = useCannabisCart();
   const [active, setActive] = useState("Home");
   const [mode, setMode] = useState("Delivery");
 
@@ -125,7 +127,7 @@ export default function Dashboard() {
           ))}
         </div>
         <button className="dd-icon-btn" aria-label="Notifications">🔔</button>
-        <button className="dd-cart" aria-label="Cart">🛒 <span>0</span></button>
+        <button className="dd-cart" aria-label="Cart" onClick={() => navigate("/bag")}>🛒 <span>{count}</span></button>
         <button className="dd-signin" onClick={() => navigate("/login")}>Sign In</button>
         <button className="dd-signup" onClick={() => navigate("/login")}>Sign Up</button>
       </header>

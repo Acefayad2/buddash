@@ -11,6 +11,10 @@ import Favourites from "./screens/Favourites/Favourites";
 import ForgotPassword from "./screens/ForgotPassword/ForgotPassword";
 import Home from "./screens/Home/Home";
 import Dashboard from "./screens/Dashboard/Dashboard";
+import Menu from "./screens/Menu/Menu";
+import Bag from "./screens/Bag/Bag";
+import CheckoutBud from "./screens/CheckoutBud/CheckoutBud";
+import OrderConfirm from "./screens/OrderConfirm/OrderConfirm";
 import Login from "./screens/Login/Login";
 import LoginEmail from "./screens/LoginEmail/LoginEmail";
 import MyOrders from "./screens/MyOrders/MyOrders";
@@ -195,6 +199,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/landing" element={<Home />} />
+          <Route path="/d/:slug" element={<Menu />} />
+          <Route path="/bag" element={<Bag />} />
+          <Route path="/checkout" element={<CheckoutBud />} />
+          <Route path="/order-confirm" element={<OrderConfirm />} />
           <Route path="/restaurant-list" element={<Restaurants />} />
           <Route path="/restaurant/:slug" element={<RestaurantDetail />} />
           <Route path="/privacy" element={<Privacy />} />

@@ -9,6 +9,7 @@ import   {
 } from "./context/Configuration";
 import { LocationProvider } from "./context/Location";
 import { UserProvider } from "./context/User";
+import { CannabisCartProvider } from "./context/CannabisCart";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import theme from "./utils/theme";
@@ -25,7 +26,9 @@ function Main() {
           <ThemeProvider theme={theme}>
             <UserProvider>
               <LocationProvider>
-                <App />
+                <CannabisCartProvider>
+                  <App />
+                </CannabisCartProvider>
               </LocationProvider>
             </UserProvider>
           </ThemeProvider>

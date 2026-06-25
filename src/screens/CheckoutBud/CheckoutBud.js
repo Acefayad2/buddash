@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StoreTopbar from "../../components/StoreTopbar/StoreTopbar";
+import Icon from "../../components/icons/Icon";
 import { useCannabisCart } from "../../context/CannabisCart";
 import "../storefront.css";
 
@@ -20,11 +21,10 @@ export default function CheckoutBud() {
         <StoreTopbar />
         <div className="bd-page">
           <div className="bd-empty">
-            <div className="bd-empty-leaf">🌿</div>
+            <div className="bd-empty-ico"><Icon name="cart" size={42} /></div>
             <h2>Nothing to check out</h2>
             <p>Your bag is empty.</p>
-            <br />
-            <button className="bd-add" onClick={() => navigate("/")}>Browse dispensaries</button>
+            <button className="bd-btn bd-btn-inline" onClick={() => navigate("/")}>Browse dispensaries</button>
           </div>
         </div>
       </div>
@@ -55,12 +55,14 @@ export default function CheckoutBud() {
     <div className="bd">
       <StoreTopbar />
       <form className="bd-page" onSubmit={placeOrder}>
-        <button type="button" className="bd-back" onClick={() => navigate("/bag")}>← Back to bag</button>
+        <button type="button" className="bd-back" onClick={() => navigate("/bag")}>
+          <Icon name="arrowLeft" size={16} /> Back to bag
+        </button>
         <h1 className="bd-h1">Checkout</h1>
         <div className="bd-cols">
           <div>
-            <div className="bd-card" style={{ marginBottom: 16 }}>
-              <h3 style={{ margin: "0 0 12px" }}>Delivery address</h3>
+            <div className="bd-card bd-section">
+              <h3 className="bd-section-h"><Icon name="pin" size={18} /> Delivery address</h3>
               <div className="bd-row">
                 <input className="bd-field" placeholder="Street address" defaultValue="812 Whittington Ter" required />
                 <input className="bd-field" placeholder="Apt" style={{ maxWidth: 110 }} />
@@ -72,26 +74,25 @@ export default function CheckoutBud() {
               <textarea className="bd-field" placeholder="Delivery notes (gate code, etc.)" rows={2} />
             </div>
 
-            <div className="bd-card" style={{ marginBottom: 16 }}>
-              <h3 style={{ margin: "0 0 12px" }}>ID verification (21+)</h3>
-              <label style={{ display: "flex", gap: 9, fontSize: 14, cursor: "pointer" }}>
+            <div className="bd-card bd-section">
+              <h3 className="bd-section-h"><Icon name="shield" size={18} /> ID verification (21+)</h3>
+              <label className={`bd-check ${idChecked ? "bd-check-on" : ""}`}>
                 <input type="checkbox" checked={idChecked} onChange={(e) => setIdChecked(e.target.checked)} required />
+                <span className="bd-check-box"><Icon name="check" size={14} /></span>
                 I confirm I am 21+ and will present a valid government ID on delivery.
               </label>
             </div>
 
-            <div className="bd-card" style={{ marginBottom: 16 }}>
-              <h3 style={{ margin: "0 0 12px" }}>Payment</h3>
-              <p style={{ color: "#767676", fontSize: 14, margin: "0 0 10px" }}>
-                💵 Cash on delivery (demo). Card processing needs a cannabis-friendly provider.
-              </p>
-              <label style={{ display: "flex", gap: 9, fontSize: 14 }}>
+            <div className="bd-card bd-section">
+              <h3 className="bd-section-h"><Icon name="truck" size={18} /> Payment</h3>
+              <p className="bd-muted-note">Cash on delivery (demo). Card processing needs a cannabis-friendly provider.</p>
+              <label className="bd-radio bd-radio-on">
                 <input type="radio" name="pay" defaultChecked /> Cash on delivery
               </label>
             </div>
 
-            <div className="bd-card">
-              <h3 style={{ margin: "0 0 12px" }}>Tip your driver</h3>
+            <div className="bd-card bd-section">
+              <h3 className="bd-section-h"><Icon name="heart" size={18} /> Tip your driver</h3>
               <div className="bd-tips">
                 {[0, 3, 5, 8].map((t) => (
                   <button type="button" key={t} className={`bd-tip ${tip === t ? "bd-tip-on" : ""}`} onClick={() => setTip(t)}>
@@ -102,8 +103,8 @@ export default function CheckoutBud() {
             </div>
           </div>
 
-          <div className="bd-card">
-            <h3 style={{ margin: "0 0 12px" }}>Order summary</h3>
+          <div className="bd-card bd-summary">
+            <h3 className="bd-summary-title">Order summary</h3>
             {items.map((i) => (
               <div className="bd-line" key={i.id}><span>{i.qty}× {i.name}</span><span>${(i.qty * i.price).toFixed(2)}</span></div>
             ))}
@@ -115,7 +116,6 @@ export default function CheckoutBud() {
             <div className="bd-line"><span>Driver tip</span><span>${tip.toFixed(2)}</span></div>
             <div className="bd-hr" />
             <div className="bd-line bd-total"><span>Total</span><span>${total.toFixed(2)}</span></div>
-            <br />
             <button type="submit" className="bd-btn">Place order · ${total.toFixed(2)}</button>
           </div>
         </div>

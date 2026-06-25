@@ -112,16 +112,17 @@ export function dispensaryBySlug(slug) {
 }
 
 // Per-dispensary product menus for the functional ordering flow.
+const P = (q) => `https://images.unsplash.com/${q}&w=400&h=400&fit=crop&q=70`;
 const MENU_TEMPLATE = [
-  { id: "p1", name: "Blue Dream", category: "Flower", strain: "Hybrid", thc: "22%", price: 45, unit: "⅛ oz", emoji: "🌿", desc: "Balanced hybrid with sweet berry notes. Uplifting, great for daytime." },
-  { id: "p2", name: "OG Kush", category: "Flower", strain: "Indica", thc: "24%", price: 50, unit: "⅛ oz", emoji: "🌿", desc: "Classic earthy, piney indica. Deeply relaxing — best for evenings." },
-  { id: "p3", name: "Sour Diesel", category: "Flower", strain: "Sativa", thc: "21%", price: 48, unit: "⅛ oz", emoji: "🌿", desc: "Energizing, citrus-forward sativa. Bright and fast-hitting." },
-  { id: "p4", name: "Watermelon Gummies", category: "Edibles", strain: "10mg ea", thc: "100mg", price: 22, unit: "10-pack", emoji: "🍬", desc: "Vegan gummies, precisely dosed at 10mg THC each." },
-  { id: "p5", name: "Dark Chocolate Bar", category: "Edibles", strain: "10mg/sq", thc: "100mg", price: 24, unit: "bar", emoji: "🍫", desc: "Belgian dark chocolate scored into ten 10mg squares." },
-  { id: "p6", name: "Sour Diesel Cart", category: "Vapes", strain: "Sativa", thc: "85%", price: 38, unit: "1g", emoji: "💨", desc: "High-potency distillate cartridge. Citrus-forward sativa." },
-  { id: "p7", name: "Live Resin Badder", category: "Concentrates", strain: "Hybrid", thc: "78%", price: 55, unit: "1g", emoji: "🍯", desc: "Full-spectrum live resin with a rich terpene profile." },
-  { id: "p8", name: "Infused Pre-Roll 5pk", category: "Pre-Rolls", strain: "Hybrid", thc: "32%", price: 28, unit: "5-pack", emoji: "🚬", desc: "Kief-coated pre-rolls. Five half-grams, ready to spark." },
-  { id: "p9", name: "Mango THC Seltzer", category: "Drinks", strain: "5mg", thc: "5mg", price: 8, unit: "can", emoji: "🥤", desc: "Sparkling mango seltzer, micro-dosed at 5mg. Fast-acting." },
+  { id: "p1", name: "Blue Dream", category: "Flower", strain: "Hybrid", thc: "22%", price: 45, unit: "⅛ oz", emoji: "🌿", image: P("photo-1603909223429-69bb7101f420?"), desc: "Balanced hybrid with sweet berry notes. Uplifting, great for daytime." },
+  { id: "p2", name: "OG Kush", category: "Flower", strain: "Indica", thc: "24%", price: 50, unit: "⅛ oz", emoji: "🌿", image: P("photo-1587049352846-4a222e784d38?"), desc: "Classic earthy, piney indica. Deeply relaxing — best for evenings." },
+  { id: "p3", name: "Sour Diesel", category: "Flower", strain: "Sativa", thc: "21%", price: 48, unit: "⅛ oz", emoji: "🌿", image: P("photo-1605000797499-95a51c5269ae?"), desc: "Energizing, citrus-forward sativa. Bright and fast-hitting." },
+  { id: "p4", name: "Watermelon Gummies", category: "Edibles", strain: "10mg ea", thc: "100mg", price: 22, unit: "10-pack", emoji: "🍬", image: P("photo-1582058091505-f87a2e55a40f?"), desc: "Vegan gummies, precisely dosed at 10mg THC each." },
+  { id: "p5", name: "Dark Chocolate Bar", category: "Edibles", strain: "10mg/sq", thc: "100mg", price: 24, unit: "bar", emoji: "🍫", image: P("photo-1574781330855-d0db8cc6a79c?"), desc: "Belgian dark chocolate scored into ten 10mg squares." },
+  { id: "p6", name: "Sour Diesel Cart", category: "Vapes", strain: "Sativa", thc: "85%", price: 38, unit: "1g", emoji: "💨", image: P("photo-1607344645866-009c320b63e0?"), desc: "High-potency distillate cartridge. Citrus-forward sativa." },
+  { id: "p7", name: "Live Resin Badder", category: "Concentrates", strain: "Hybrid", thc: "78%", price: 55, unit: "1g", emoji: "🍯", image: P("photo-1612197527762-8cfb55b618d1?"), desc: "Full-spectrum live resin with a rich terpene profile." },
+  { id: "p8", name: "Infused Pre-Roll 5pk", category: "Pre-Rolls", strain: "Hybrid", thc: "32%", price: 28, unit: "5-pack", emoji: "🚬", image: P("photo-1611843467160-25afb8df1074?"), desc: "Kief-coated pre-rolls. Five half-grams, ready to spark." },
+  { id: "p9", name: "Mango THC Seltzer", category: "Drinks", strain: "5mg", thc: "5mg", price: 8, unit: "can", emoji: "🥤", image: P("photo-1625772299848-391b6a87d7b3?"), desc: "Sparkling mango seltzer, micro-dosed at 5mg. Fast-acting." },
 ];
 
 export function productsForDispensary(slug) {

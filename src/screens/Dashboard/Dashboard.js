@@ -2,83 +2,86 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DASHBOARD_DISPENSARIES } from "../../apollo/mocks";
 import { useCannabisCart } from "../../context/CannabisCart";
+import Icon from "../../components/icons/Icon";
 import "./Dashboard.css";
 
 const SIDEBAR = [
-  { icon: "🏠", label: "Home" },
-  { icon: "🌿", label: "Flower" },
-  { icon: "🍬", label: "Edibles" },
-  { icon: "💨", label: "Vapes" },
-  { icon: "🚬", label: "Pre-Rolls" },
-  { icon: "🍯", label: "Concentrates" },
-  { icon: "🥤", label: "Drinks" },
-  { icon: "🧴", label: "Topicals" },
-  { icon: "🛍️", label: "Accessories" },
-  { icon: "🏷️", label: "Deals" },
-  { icon: "⭐", label: "Brands" },
-  { icon: "🎁", label: "Gift Cards" },
+  { icon: "home", label: "Home" },
+  { icon: "leaf", label: "Flower" },
+  { icon: "cookie", label: "Edibles" },
+  { icon: "vape", label: "Vapes" },
+  { icon: "joint", label: "Pre-Rolls" },
+  { icon: "droplet", label: "Concentrates" },
+  { icon: "cup", label: "Drinks" },
+  { icon: "lotion", label: "Topicals" },
+  { icon: "bagShop", label: "Accessories" },
+  { icon: "tag", label: "Deals" },
+  { icon: "badge", label: "Brands" },
+  { icon: "gift", label: "Gift Cards" },
 ];
 
 const MOODS = [
-  { icon: "🌿", label: "Flower" },
-  { icon: "🍬", label: "Edibles" },
-  { icon: "💨", label: "Vapes" },
-  { icon: "🚬", label: "Pre-Rolls" },
-  { icon: "🏷️", label: "Deals" },
-  { icon: "☀️", label: "Sativa" },
-  { icon: "🌙", label: "Indica" },
-  { icon: "🌗", label: "Hybrid" },
-  { icon: "🥤", label: "Drinks" },
-  { icon: "🍯", label: "Concentrates" },
+  { icon: "leaf", label: "Flower" },
+  { icon: "cookie", label: "Edibles" },
+  { icon: "vape", label: "Vapes" },
+  { icon: "joint", label: "Pre-Rolls" },
+  { icon: "sun", label: "Sativa" },
+  { icon: "moon", label: "Indica" },
+  { icon: "hybrid", label: "Hybrid" },
+  { icon: "cup", label: "Drinks" },
+  { icon: "droplet", label: "Concentrates" },
+  { icon: "tag", label: "Deals" },
 ];
-
-function Stars({ rating, reviews }) {
-  return (
-    <span className="dd-card-rating">
-      {rating} <span className="dd-star">★</span>{" "}
-      <span className="dd-muted">({reviews})</span>
-    </span>
-  );
-}
 
 function DispensaryCard({ d, onClick }) {
   return (
-    <div className="dd-card" onClick={onClick}>
+    <article className="dd-card" onClick={onClick}>
       <div className="dd-card-img" style={{ backgroundImage: `url(${d.image})` }}>
-        {d.promo && <span className="dd-card-promo">{d.promo}</span>}
         <button
           className="dd-card-heart"
           onClick={(e) => e.stopPropagation()}
-          aria-label="Save"
+          aria-label="Save dispensary"
         >
-          ♡
+          <Icon name="heart" size={18} />
         </button>
+        <span className="dd-card-fee-chip">
+          {d.fee === 0 ? "$0 delivery fee" : `$${d.fee.toFixed(2)} delivery fee`}
+        </span>
       </div>
-      <div className="dd-card-name">{d.name}</div>
-      <Stars rating={d.rating} reviews={d.reviews} />
-      <div className="dd-card-meta">
-        {d.distance} mi · {d.time} min
+      <div className="dd-card-body">
+        <div className="dd-card-row">
+          <span className="dd-card-name">{d.name}</span>
+          <span className="dd-card-rating">
+            <Icon name="star" size={13} filled /> {d.rating}
+          </span>
+        </div>
+        <div className="dd-card-meta">
+          <Icon name="clock" size={13} /> {d.time} min · {d.distance} mi
+          <span className="dd-card-reviews">· {d.reviews} ratings</span>
+        </div>
+        {d.promo && <span className="dd-card-promo"><Icon name="tag" size={12} /> {d.promo}</span>}
       </div>
-      <div className="dd-card-fee">
-        {d.fee === 0 ? "$0 delivery fee" : `$${d.fee.toFixed(2)} delivery fee`}
-      </div>
-    </div>
+    </article>
   );
 }
 
 function Carousel({ title, items, navigate }) {
   const ref = React.useRef(null);
   const scroll = (dir) => {
-    if (ref.current) ref.current.scrollBy({ left: dir * 600, behavior: "smooth" });
+    if (ref.current) ref.current.scrollBy({ left: dir * 640, behavior: "smooth" });
   };
   return (
     <section className="dd-section">
       <div className="dd-section-head">
         <h2>{title}</h2>
         <div className="dd-section-actions">
-          <span className="dd-seeall">See All</span>
-          <button className="dd-arrow" onClick={() => scroll(-1)} aria-label="Scroll left">‹</button>
-          <button className="dd-arrow" onClick={() => scroll(1)} aria-label="Scroll right">›</button>
+          <span className="dd-seeall">See all</span>
+          <button className="dd-arrow" onClick={() => scroll(-1)} aria-label="Scroll left">
+            <Icon name="chevronLeft" size={20} />
+          </button>
+          <button className="dd-arrow" onClick={() => scroll(1)} aria-label="Scroll right">
+            <Icon name="chevronRight" size={20} />
+          </button>
         </div>
       </div>
       <div className="dd-carousel" ref={ref}>
@@ -105,16 +108,21 @@ export default function Dashboard() {
       {/* Top bar */}
       <header className="dd-topbar">
         <div className="dd-brand" onClick={() => navigate("/")}>
-          <span className="dd-leaf">🌿</span>
-          <span>Bud<span className="dd-brand-accent">Dash</span></span>
+          <span className="dd-logo"><Icon name="leaf" size={20} /></span>
+          <span className="dd-wordmark">Bud<span>Dash</span></span>
         </div>
-        <div className="dd-search">
-          <span className="dd-search-ico">🔍</span>
-          <input placeholder="Search BudDash" />
-        </div>
+
         <button className="dd-address">
-          <span className="dd-pin">📍</span> 812 Whittington Ter <span className="dd-chevron">▾</span>
+          <Icon name="pin" size={16} />
+          <span className="dd-address-text">812 Whittington Ter</span>
+          <Icon name="chevronDown" size={15} />
         </button>
+
+        <div className="dd-search">
+          <Icon name="search" size={18} />
+          <input placeholder="Search dispensaries, strains, brands" />
+        </div>
+
         <div className="dd-toggle">
           {["Delivery", "Pickup"].map((m) => (
             <button
@@ -126,52 +134,85 @@ export default function Dashboard() {
             </button>
           ))}
         </div>
-        <button className="dd-icon-btn" aria-label="Notifications">🔔</button>
-        <button className="dd-cart" aria-label="Cart" onClick={() => navigate("/bag")}>🛒 <span>{count}</span></button>
-        <button className="dd-signin" onClick={() => navigate("/login")}>Sign In</button>
-        <button className="dd-signup" onClick={() => navigate("/login")}>Sign Up</button>
+
+        <button className="dd-icon-btn" aria-label="Notifications">
+          <Icon name="bell" size={20} />
+        </button>
+        <button className="dd-cart" aria-label="Cart" onClick={() => navigate("/bag")}>
+          <Icon name="cart" size={18} />
+          <span>Cart</span>
+          {count > 0 && <span className="dd-cart-badge">{count}</span>}
+        </button>
+        <button className="dd-signin" onClick={() => navigate("/login")}>Sign in</button>
+        <button className="dd-signup" onClick={() => navigate("/login")}>Sign up</button>
       </header>
 
       <div className="dd-body">
         {/* Sidebar */}
         <aside className="dd-sidebar">
+          <p className="dd-sidebar-label">Categories</p>
           {SIDEBAR.map((s) => (
             <button
               key={s.label}
               className={`dd-nav ${active === s.label ? "dd-nav-on" : ""}`}
               onClick={() => setActive(s.label)}
             >
-              <span className="dd-nav-ico">{s.icon}</span> {s.label}
+              <span className="dd-nav-ico"><Icon name={s.icon} size={20} /></span> {s.label}
             </button>
           ))}
+          <div className="dd-sidebar-card">
+            <Icon name="shield" size={22} />
+            <div>
+              <strong>21+ verified delivery</strong>
+              <span>Licensed dispensaries, ID checked at the door.</span>
+            </div>
+          </div>
         </aside>
 
         {/* Main */}
         <main className="dd-main">
-          <h1 className="dd-mood-title">What are you in the mood for?</h1>
+          {/* Hero */}
+          <section className="dd-hero">
+            <div className="dd-hero-text">
+              <span className="dd-hero-kicker">New customers · 21+</span>
+              <h1>$5 off your first delivery</h1>
+              <p>Premium flower, edibles & more — delivered in 30 minutes. Use code <strong>BUD5</strong>.</p>
+              <button className="dd-hero-btn" onClick={() => navigate("/login")}>
+                Start an order <Icon name="chevronRight" size={18} />
+              </button>
+            </div>
+            <div className="dd-hero-glow" aria-hidden="true">
+              <Icon name="leaf" size={150} />
+            </div>
+          </section>
+
+          <h2 className="dd-mood-title">Shop by category</h2>
           <div className="dd-moods">
             {MOODS.map((m) => (
               <button key={m.label} className="dd-mood">
-                <span className="dd-mood-ico">{m.icon}</span> {m.label}
+                <span className="dd-mood-ico"><Icon name={m.icon} size={22} /></span>
+                {m.label}
               </button>
             ))}
           </div>
 
           <Carousel title="Under $2 delivery fee" items={cheap} navigate={navigate} />
-
-          <div className="dd-banner">
-            <div className="dd-banner-left">
-              <h3>Get $5 off your first order</h3>
-              <p>Use code <strong>BUD5</strong> at checkout. New customers, 21+.</p>
-              <button className="dd-banner-btn" onClick={() => navigate("/login")}>Order now</button>
-            </div>
-            <div className="dd-banner-art">🌿</div>
-          </div>
-
           <Carousel title="Popular near you" items={all} navigate={navigate} />
           <Carousel title="Fastest delivery" items={fast} navigate={navigate} />
         </main>
       </div>
+
+      {/* Mobile bottom nav */}
+      <nav className="dd-bottomnav">
+        <button className="dd-bn dd-bn-on"><Icon name="home" size={22} /><span>Home</span></button>
+        <button className="dd-bn"><Icon name="search" size={22} /><span>Search</span></button>
+        <button className="dd-bn" onClick={() => navigate("/bag")}>
+          <span className="dd-bn-cart"><Icon name="cart" size={22} />{count > 0 && <i>{count}</i>}</span>
+          <span>Cart</span>
+        </button>
+        <button className="dd-bn" onClick={() => navigate("/orders")}><Icon name="clock" size={22} /><span>Orders</span></button>
+        <button className="dd-bn" onClick={() => navigate("/login")}><Icon name="user" size={22} /><span>Account</span></button>
+      </nav>
     </div>
   );
 }

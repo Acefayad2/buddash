@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import StoreTopbar from "../../components/StoreTopbar/StoreTopbar";
+import Icon from "../../components/icons/Icon";
 import "../storefront.css";
 
 const STEPS = [
-  { id: "confirmed", label: "Order confirmed", icon: "✅", detail: "The dispensary received your order." },
-  { id: "preparing", label: "Preparing", icon: "📦", detail: "Your items are being packed and ID-tagged." },
-  { id: "enroute", label: "Driver en route", icon: "🚗", detail: "Your driver is on the way to you." },
-  { id: "delivered", label: "Delivered", icon: "🌿", detail: "Enjoy responsibly. Thanks for using BudDash!" },
+  { id: "confirmed", label: "Order confirmed", icon: "check", detail: "The dispensary received your order." },
+  { id: "preparing", label: "Preparing", icon: "package", detail: "Your items are being packed and ID-tagged." },
+  { id: "enroute", label: "Driver en route", icon: "truck", detail: "Your driver is on the way to you." },
+  { id: "delivered", label: "Delivered", icon: "home", detail: "Enjoy responsibly. Thanks for using BudDash!" },
 ];
 
 export default function OrderConfirm() {
@@ -31,6 +32,7 @@ export default function OrderConfirm() {
   }, [step]);
 
   const current = STEPS[step];
+  const done = step >= STEPS.length - 1;
   const eta = Math.max(0, (STEPS.length - 1 - step) * 12) || 12;
 
   return (
@@ -38,26 +40,29 @@ export default function OrderConfirm() {
       <StoreTopbar />
       <div className="bd-page">
         <div className="bd-track">
-          <div className="bd-track-emoji">{current.icon}</div>
+          <div className={`bd-track-badge ${done ? "bd-track-badge-done" : ""}`}>
+            <Icon name={current.icon} size={36} />
+          </div>
           <h1>{current.label}</h1>
           <p>{current.detail}</p>
-          {order && <p style={{ marginTop: 8 }}>Order <strong>#{order.id}</strong> · ${order.total}</p>}
-          {step < STEPS.length - 1 ? (
-            <div className="bd-eta">Estimated arrival in ~{eta} min</div>
-          ) : (
-            <div className="bd-eta">Order complete 🎉</div>
-          )}
+          {order && <p className="bd-track-order">Order <strong>#{order.id}</strong> · ${order.total}</p>}
+          <div className="bd-eta">
+            <Icon name="clock" size={15} />
+            {done ? "Order complete" : `Estimated arrival in ~${eta} min`}
+          </div>
 
           <div className="bd-steps">
             {STEPS.map((s, idx) => (
               <div key={s.id} className={`bd-step ${idx <= step ? "done" : ""} ${idx === step ? "active" : ""}`}>
-                <div className="bd-dot">{idx < step ? "✓" : s.icon}</div>
+                <div className="bd-dot">
+                  <Icon name={idx < step ? "check" : s.icon} size={18} />
+                </div>
                 <div className="bd-step-label">{s.label}</div>
               </div>
             ))}
           </div>
 
-          <button className="bd-btn" style={{ maxWidth: 260, margin: "0 auto" }} onClick={() => navigate("/")}>
+          <button className="bd-btn bd-btn-inline" onClick={() => navigate("/")}>
             Back to dashboard
           </button>
         </div>

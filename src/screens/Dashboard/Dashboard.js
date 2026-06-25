@@ -118,9 +118,9 @@ export default function Dashboard() {
           <Icon name="chevronDown" size={15} />
         </button>
 
-        <div className="dd-search">
+        <div className="dd-search" onClick={() => navigate("/search")}>
           <Icon name="search" size={18} />
-          <input placeholder="Search dispensaries, strains, brands" />
+          <input placeholder="Search dispensaries, strains, brands" readOnly />
         </div>
 
         <div className="dd-toggle">
@@ -205,13 +205,13 @@ export default function Dashboard() {
       {/* Mobile bottom nav */}
       <nav className="dd-bottomnav">
         <button className="dd-bn dd-bn-on"><Icon name="home" size={22} /><span>Home</span></button>
-        <button className="dd-bn"><Icon name="search" size={22} /><span>Search</span></button>
+        <button className="dd-bn" onClick={() => navigate("/search")}><Icon name="search" size={22} /><span>Search</span></button>
         <button className="dd-bn" onClick={() => navigate("/bag")}>
           <span className="dd-bn-cart"><Icon name="cart" size={22} />{count > 0 && <i>{count}</i>}</span>
           <span>Cart</span>
         </button>
         <button className="dd-bn" onClick={() => navigate("/orders")}><Icon name="clock" size={22} /><span>Orders</span></button>
-        <button className="dd-bn" onClick={() => navigate("/login")}><Icon name="user" size={22} /><span>Account</span></button>
+        <button className="dd-bn" onClick={() => navigate("/account")}><Icon name="user" size={22} /><span>Account</span></button>
       </nav>
     </div>
   );

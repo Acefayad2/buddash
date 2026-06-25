@@ -1,36 +1,33 @@
 import { Box, CircularProgress } from "@mui/material";
 import { useJsApiLoader } from "@react-google-maps/api";
-import React, { useEffect,useContext, useState } from "react";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
 import { getToken, onMessage } from "firebase/messaging";
 import { initialize, isFirebaseSupported } from "./firebase";
 import ConfigurableValues from "./config/constants";
-import Checkout from "./screens/Checkout/Checkout";
 import EmailSent from "./screens/EmailSent/EmailSent";
 import Favourites from "./screens/Favourites/Favourites";
 import ForgotPassword from "./screens/ForgotPassword/ForgotPassword";
-import Home from "./screens/Home/Home";
 import Dashboard from "./screens/Dashboard/Dashboard";
 import Menu from "./screens/Menu/Menu";
 import Bag from "./screens/Bag/Bag";
 import CheckoutBud from "./screens/CheckoutBud/CheckoutBud";
 import OrderConfirm from "./screens/OrderConfirm/OrderConfirm";
-import Login from "./screens/Login/Login";
+import BudAuth from "./screens/BudAuth/BudAuth";
+import BudOrders from "./screens/BudOrders/BudOrders";
+import BudAccount from "./screens/BudAccount/BudAccount";
+import BudSearch from "./screens/BudSearch/BudSearch";
 import LoginEmail from "./screens/LoginEmail/LoginEmail";
-import MyOrders from "./screens/MyOrders/MyOrders";
 import NewLogin from "./screens/NewLogin/NewLogin";
 import OrderDetail from "./screens/OrderDetail/OrderDetail";
 import Paypal from "./screens/Paypal/Paypal";
 import Privacy from "./screens/Privacy/Privacy";
-import Profile from "./screens/Profile/Profile";
-import Settings from "./screens/Settings/Settings";
 import Registration from "./screens/Registration/Registration";
 import PhoneNumber from "./screens/PhoneNumber/PhoneNumber";
 import VerifyEmail from "./screens/VerifyEmail/VerifyEmail";
 import VerifyForgotOtp from "./screens/VerifyForgotOtp/VerifyForgotOtp";
 import ResetPassword from "./screens/ResetPassword/ResetPassword";
 import RestaurantDetail from "./screens/RestaurantDetail/RestaurantDetail";
-import Restaurants from "./screens/Restaurants/Restaurants";
 import Stripe from "./screens/Stripe/Stripe";
 import Terms from "./screens/Terms/Terms";
 import FlashMessage from "./components/FlashMessage";
@@ -39,7 +36,6 @@ import * as Sentry from "@sentry/react";
 import AuthRoute from "./routes/AuthRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import VerifyPhone from "./screens/VerifyPhone/VerifyPhone";
-import UserContext from "./context/User";
 import { useTranslation } from "react-i18next";
 //import { fetchConfiguration } from "./utils/helper";
 
@@ -171,7 +167,6 @@ const GoogleMapsLoader = ({
 
 function App() {
   const { GOOGLE_MAPS_KEY, LIBRARIES, VAPID_KEY,SENTRY_DSN } = ConfigurableValues();
-  const { isLoggedIn } = useContext(UserContext);
 
   useEffect(() => {
   
@@ -198,24 +193,20 @@ function App() {
       >
         <Routes>
           <Route path="/" element={<Dashboard />} />
-          <Route path="/landing" element={<Home />} />
+          <Route path="/landing" element={<Navigate to="/" replace />} />
           <Route path="/d/:slug" element={<Menu />} />
           <Route path="/bag" element={<Bag />} />
           <Route path="/checkout" element={<CheckoutBud />} />
           <Route path="/order-confirm" element={<OrderConfirm />} />
-          <Route path="/restaurant-list" element={<Restaurants />} />
+          <Route path="/search" element={<BudSearch />} />
+          <Route path="/orders" element={<BudOrders />} />
+          <Route path="/account" element={<BudAccount />} />
+          <Route path="/restaurant-list" element={<Navigate to="/" replace />} />
           <Route path="/restaurant/:slug" element={<RestaurantDetail />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
           <Route path="/pickup" element={<Pickup />} />
-          <Route
-            path={"/login"}
-            element={
-              <AuthRoute>
-                <Login />
-              </AuthRoute>
-            }
-          />
+          <Route path={"/login"} element={<BudAuth />} />
           <Route
             path={"/registration"}
             element={
@@ -296,34 +287,8 @@ function App() {
               </AuthRoute>
             }
           />
-          <Route
-            path={"/orders"}
-            element={
-              <PrivateRoute>
-                <MyOrders />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={"/profile"}
-            element={
-              <PrivateRoute>
-                <Profile />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={"/settings"}
-            element={
-              <PrivateRoute>
-                <Settings />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path={"/checkout"}
-            element={isLoggedIn ? <Checkout /> : <Login />}
-          />
+          <Route path={"/profile"} element={<Navigate to="/account" replace />} />
+          <Route path={"/settings"} element={<Navigate to="/account" replace />} />
           <Route
             path={"/order-detail/:id"}
             element={

@@ -13,9 +13,9 @@ export default function StoreTopbar({ showSearch = true }) {
         <span className="bd-wordmark">Bud<span>Dash</span></span>
       </div>
       {showSearch && (
-        <div className="bd-search">
+        <div className="bd-search" onClick={() => navigate("/search")}>
           <Icon name="search" size={18} />
-          <input placeholder="Search dispensaries, strains, brands" />
+          <input placeholder="Search dispensaries, strains, brands" readOnly />
         </div>
       )}
       <div className="bd-spacer" />

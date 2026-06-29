@@ -146,6 +146,30 @@ export const DASHBOARD_DISPENSARIES = [
   { id: "r8", slug: "terp-house", name: "Terp House", image: DASH_IMG[7], rating: 4.7, reviews: "780+", distance: 2.7, time: 42, fee: 1.49, promo: null },
 ];
 
+// --- Delivery addresses + service areas (mock) ------------------------------
+// Switching address changes which dispensaries are "in range".
+export const SAVED_ADDRESSES = [
+  { id: "a1", label: "Home", line: "812 Whittington Ter", city: "Silver Spring, MD 20901", area: "silver-spring" },
+  { id: "a2", label: "Work", line: "1600 Pennsylvania Ave NW", city: "Washington, DC 20500", area: "dc" },
+  { id: "a3", label: "Denver", line: "401 Sun Blvd", city: "Denver, CO 80202", area: "denver" },
+  { id: "a4", label: "Boulder", line: "9 Skyline Dr", city: "Boulder, CO 80302", area: "boulder" },
+];
+
+const AREA_DISPENSARIES = {
+  "silver-spring": ["the-green-room", "high-tide-collective", "sunset-botanicals", "evergreen-dispensary", "highland-greens"],
+  "dc": ["the-green-room", "cloud-nine-cannabis", "kush-corner", "terp-house", "highland-greens"],
+  "denver": ["sunset-botanicals", "cloud-nine-cannabis", "evergreen-dispensary", "highland-greens", "terp-house", "kush-corner"],
+  "boulder": ["high-tide-collective", "highland-greens", "evergreen-dispensary"],
+};
+
+// Returns the dispensaries serving a given area (defaults to a full list for
+// unknown/typed addresses so a custom address still shows results).
+export function dispensariesForArea(area) {
+  const slugs = AREA_DISPENSARIES[area];
+  if (!slugs) return DASHBOARD_DISPENSARIES;
+  return DASHBOARD_DISPENSARIES.filter((d) => slugs.includes(d.slug));
+}
+
 // Returns canned data for known operations; null-fills unknown ones so the
 // app never crashes on `data.<field>` being undefined.
 // Demo credential that is allowed to log in (mock auth — replace with a real

@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import StoreTopbar from "../../components/StoreTopbar/StoreTopbar";
 import Icon from "../../components/icons/Icon";
 import { DASHBOARD_DISPENSARIES, productsForDispensary } from "../../apollo/mocks";
@@ -14,7 +14,8 @@ const PRODUCT_INDEX = DASHBOARD_DISPENSARIES.slice(0, 4).flatMap((d) =>
 
 export default function BudSearch() {
   const navigate = useNavigate();
-  const [q, setQ] = useState("");
+  const [params] = useSearchParams();
+  const [q, setQ] = useState(params.get("q") || "");
   const query = q.trim().toLowerCase();
 
   const { dispensaries, products } = useMemo(() => {

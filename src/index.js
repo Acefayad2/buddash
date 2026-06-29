@@ -10,6 +10,7 @@ import   {
 import { LocationProvider } from "./context/Location";
 import { UserProvider } from "./context/User";
 import { CannabisCartProvider } from "./context/CannabisCart";
+import { AddressProvider } from "./context/Address";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import theme from "./utils/theme";
@@ -27,7 +28,9 @@ function Main() {
             <UserProvider>
               <LocationProvider>
                 <CannabisCartProvider>
-                  <App />
+                  <AddressProvider>
+                    <App />
+                  </AddressProvider>
                 </CannabisCartProvider>
               </LocationProvider>
             </UserProvider>

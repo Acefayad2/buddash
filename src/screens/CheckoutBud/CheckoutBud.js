@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import StoreTopbar from "../../components/StoreTopbar/StoreTopbar";
 import Icon from "../../components/icons/Icon";
 import { useCannabisCart } from "../../context/CannabisCart";
+import { useAddress } from "../../context/Address";
 import "../storefront.css";
 
 const DELIVERY = 2.99;
@@ -12,8 +13,13 @@ const TAX_RATE = 0.15;
 export default function CheckoutBud() {
   const navigate = useNavigate();
   const { items, subtotal, count, clear } = useCannabisCart();
+  const { address } = useAddress();
   const [tip, setTip] = useState(5);
   const [idChecked, setIdChecked] = useState(false);
+
+  // Prefill from the address the user picked on the dashboard.
+  const zip = (address.city.match(/\d{5}/) || [""])[0];
+  const city = address.city.replace(/,?\s*[A-Z]{2}\s*\d{5}.*$/, "").trim() || address.city;
 
   if (count === 0) {
     return (
@@ -64,12 +70,12 @@ export default function CheckoutBud() {
             <div className="bd-card bd-section">
               <h3 className="bd-section-h"><Icon name="pin" size={18} /> Delivery address</h3>
               <div className="bd-row">
-                <input className="bd-field" placeholder="Street address" defaultValue="812 Whittington Ter" required />
+                <input key={address.id} className="bd-field" placeholder="Street address" defaultValue={address.line} required />
                 <input className="bd-field" placeholder="Apt" style={{ maxWidth: 110 }} />
               </div>
               <div className="bd-row">
-                <input className="bd-field" placeholder="City" defaultValue="Denver" required />
-                <input className="bd-field" placeholder="ZIP" defaultValue="80202" style={{ maxWidth: 130 }} required />
+                <input key={`${address.id}-c`} className="bd-field" placeholder="City" defaultValue={city} required />
+                <input key={`${address.id}-z`} className="bd-field" placeholder="ZIP" defaultValue={zip} style={{ maxWidth: 130 }} required />
               </div>
               <textarea className="bd-field" placeholder="Delivery notes (gate code, etc.)" rows={2} />
             </div>

@@ -82,22 +82,30 @@ function useImageLoaded(src) {
 
 function DispensaryCard({ d, onClick }) {
   const loaded = useImageLoaded(d.image);
+  // Cursor-tracked spotlight: feed pointer position into CSS custom props.
+  const onMove = (e) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--mx", `${e.clientX - r.left}px`);
+    e.currentTarget.style.setProperty("--my", `${e.clientY - r.top}px`);
+  };
   return (
-    <article className="dd-card" onClick={onClick}>
-      <div
-        className={`dd-card-img ${loaded ? "" : "is-loading"}`}
-        style={loaded ? { backgroundImage: `url(${d.image})` } : undefined}
-      >
-        <button
-          className="dd-card-heart"
-          onClick={(e) => e.stopPropagation()}
-          aria-label="Save dispensary"
+    <article className="dd-card" onClick={onClick} onMouseMove={onMove}>
+      <div className="dd-card-tray">
+        <div
+          className={`dd-card-img ${loaded ? "" : "is-loading"}`}
+          style={loaded ? { backgroundImage: `url(${d.image})` } : undefined}
         >
-          <Icon name="heart" size={18} />
-        </button>
-        <span className="dd-card-fee-chip">
-          {d.fee === 0 ? "$0 delivery fee" : `$${d.fee.toFixed(2)} delivery fee`}
-        </span>
+          <button
+            className="dd-card-heart"
+            onClick={(e) => e.stopPropagation()}
+            aria-label="Save dispensary"
+          >
+            <Icon name="heart" size={18} />
+          </button>
+          <span className="dd-card-fee-chip">
+            {d.fee === 0 ? "$0 delivery fee" : `$${d.fee.toFixed(2)} delivery fee`}
+          </span>
+        </div>
       </div>
       <div className="dd-card-body">
         <div className="dd-card-row">
